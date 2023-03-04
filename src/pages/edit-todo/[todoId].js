@@ -8,7 +8,7 @@ import { getOneTodo } from "server/controller/todo";
 const EditTodoPage = ({ todo }) => {
   const router = useRouter();
 
-  const handleSubmit = async (e, setValue, value) => {
+  const handleSubmit = async (e, setValue, value, checked) => {
     e.preventDefault();
 
     try {
@@ -16,6 +16,7 @@ const EditTodoPage = ({ todo }) => {
         ...todo,
         title: value.title,
         description: value.description,
+        completed: checked,
       });
 
       if (data.data.status === 200) {

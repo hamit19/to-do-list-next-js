@@ -2,6 +2,8 @@ import axios from "axios";
 import React, { useState } from "react";
 
 const FormComponent = ({ handleSubmit, todo, cancel, edit }) => {
+  const [checked, setChecked] = useState(todo?.completed);
+
   const [value, setValue] = useState({
     title: todo?.title,
     description: todo?.description,
@@ -14,7 +16,7 @@ const FormComponent = ({ handleSubmit, todo, cancel, edit }) => {
   return (
     <form
       className='flex flex-col w-full h-full gap-6'
-      onSubmit={(e) => handleSubmit(e, setValue, value)}
+      onSubmit={(e) => handleSubmit(e, setValue, value, checked)}
     >
       <div className='flex flex-col w-full gap-2'>
         <label className='text-slate-500'>Title</label>
@@ -38,6 +40,18 @@ const FormComponent = ({ handleSubmit, todo, cancel, edit }) => {
           value={value.description}
         ></textarea>
       </div>
+      {edit && (
+        <div className='flex items-center justify-start gap-3'>
+          <input
+            type='checkbox'
+            name='checked'
+            checked={checked}
+            id='checked'
+            onChange={() => setChecked(!checked)}
+          />
+          <label htmlFor='checked'>Is completed Todo?</label>
+        </div>
+      )}
       <div className='flex w-full gap-2 '>
         <button
           onClick={() => cancel()}

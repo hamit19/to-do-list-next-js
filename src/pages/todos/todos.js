@@ -12,7 +12,7 @@ const fetcher = async () => {
 };
 
 // delete todo function
-export const handleDelete = async (id, mutate) => {
+const handleDelete = async (id, mutate) => {
   const { data } = await axios.delete(`/todo/${id}`);
 
   toast(data.message, {
@@ -25,19 +25,18 @@ export const handleDelete = async (id, mutate) => {
   mutate("api/todo");
 };
 
-export const handleEdit = async (todo, mutate) => {
+const handleEdit = async (todo, mutate) => {
   try {
     const { data } = await axios.patch(`/todo/${todo._id}`, {
       ...todo,
-      completed: true,
+      completed: !todo.completed,
     });
-    console.log(data);
-    toast(data.message, {
-      hideProgressBar: false,
-      autoClose: 2000,
-      type: "success",
-      position: "top-center",
-    });
+    // toast(data.message, {
+    //   hideProgressBar: false,
+    //   autoClose: 2000,
+    //   type: "success",
+    //   position: "top-center",
+    // });
     mutate("api/todo");
     return data;
   } catch (error) {

@@ -2,12 +2,11 @@ import React from "react";
 import CheckedIcon from "../../assets/svgs/checked.svg";
 import Trash from "../../assets/svgs/trash.svg";
 import Edit from "../../assets/svgs/edit.svg";
-import axios from "axios";
 import Link from "next/link";
 
 const TodoCard = ({ todo, mutate, handleDelete, handleEdit }) => {
   return (
-    <div className='flex flex-row items-center justify-between w-full p-6 mt-6 bg-white border rounded-xl cursor-pointer hover:shadow-lg custom-transition border-slate-200'>
+    <div className='flex flex-row items-center justify-between w-full p-6 mt-6 bg-white border cursor-pointer rounded-xl hover:shadow-lg custom-transition border-slate-200'>
       <div>
         <Link href={`todos/${todo._id}`}>
           <h4
@@ -22,11 +21,11 @@ const TodoCard = ({ todo, mutate, handleDelete, handleEdit }) => {
           onClick={() => handleEdit(todo, mutate)}
           className='p-2 rounded-md cursor-pointer hover:bg-slate-50 custom-transition hover:shadow-md'
         >
-          <CheckedIcon
-            className={`w-6 h-6 ${
-              !todo.completed ? "text-red-500" : "text-green-500"
-            }`}
-          />
+          {todo.completed ? (
+            <CheckedIcon className={"w-6 h-6 text-green-500"} />
+          ) : (
+            <div className='w-6 h-6 border-2 rounded-full border-slate-500'></div>
+          )}
         </div>
         <div
           onClick={() => handleDelete(todo._id, mutate)}

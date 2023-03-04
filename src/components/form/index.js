@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 
-const FormComponent = ({ handleSubmit, todo, cancel }) => {
+const FormComponent = ({ handleSubmit, todo, cancel, edit }) => {
   const [value, setValue] = useState({
     title: todo?.title,
     description: todo?.description,
@@ -45,14 +45,14 @@ const FormComponent = ({ handleSubmit, todo, cancel }) => {
           className='w-1/2 p-2 text-blue-500 border border-blue-500 rounded-md hover:bg-blue-600 hover:text-slate-50 custom-transition'
           type='button'
         >
-          Cancel
+          {edit ? "Back" : "Cancel"}
         </button>
         <button
           key='submit'
           className='w-1/2 p-2 bg-blue-500 rounded-md hover:bg-blue-600 custom-transition text-slate-50'
           type='submit'
         >
-          Add
+          {edit ? "Update" : "Add"}
         </button>
       </div>
     </form>

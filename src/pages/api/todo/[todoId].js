@@ -18,7 +18,6 @@ export default async function handle(req, res) {
 
   if (method === "PATCH") {
     const newValue = req.body;
-    console.log(newValue, "this is log!!!!!!");
     const data = await editTodo({ newValue });
 
     if (data.status === 200)

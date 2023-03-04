@@ -31,8 +31,6 @@ const EditTodoPage = ({ todo }) => {
     } catch (err) {
       console.log(err);
     }
-
-    console.log(value);
   };
 
   return (
@@ -41,6 +39,7 @@ const EditTodoPage = ({ todo }) => {
         handleSubmit={handleSubmit}
         todo={todo}
         cancel={() => router.push("/")}
+        edit
       />
     </div>
   );

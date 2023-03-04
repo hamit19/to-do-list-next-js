@@ -18,12 +18,13 @@ export default async function handle(req, res) {
 
   if (method === "PATCH") {
     const newValue = req.body;
+    console.log(newValue, "this is log!!!!!!");
     const data = await editTodo({ newValue });
 
     if (data.status === 200)
       return res
         .status(200)
-        .json({ message: "Well done! you've done your Todo :)" });
+        .json({ data, message: "Well done! you've done your Todo :)" });
 
     if ((data.status = 500))
       return res

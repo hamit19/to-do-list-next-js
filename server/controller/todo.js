@@ -32,17 +32,23 @@ const deleteTodo = async ({ todoId }) => {
 };
 
 const editTodo = async ({ newValue }) => {
-  console.log(newValue, "this is newValue in controller log!!!!!");
-
   const foundTodo = await Todo.findById(newValue._id);
 
   if (foundTodo) {
-    const editedTodo = await Todo.findByIdAndUpdate(foundTodo._id, newValue);
+    const data = await Todo.findByIdAndUpdate(foundTodo._id, newValue, {
+      new: true,
+    });
 
-    if (editedTodo) return { status: 200 };
+    if (data) return { data, status: 200 };
   }
 
   if (!foundTodo) return { status: 404 };
+};
+
+const getOneTodo = async (id) => {
+  const todo = await Todo.findById(id);
+
+  return { status: 200, todo, message: "todo loaded!" };
 };
 
 module.exports = {
@@ -50,4 +56,5 @@ module.exports = {
   createTodo,
   deleteTodo,
   editTodo,
+  getOneTodo,
 };

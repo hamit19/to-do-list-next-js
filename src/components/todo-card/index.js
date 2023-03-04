@@ -3,51 +3,23 @@ import CheckedIcon from "../../assets/svgs/checked.svg";
 import Trash from "../../assets/svgs/trash.svg";
 import Edit from "../../assets/svgs/edit.svg";
 import axios from "axios";
-import { toast } from "react-toastify";
+import Link from "next/link";
 
-const TodoCard = ({ todo, mutate }) => {
-  // delete todo function
-  const handleDelete = async (id) => {
-    const { data } = await axios.delete(`api/todo/${id}`);
-
-    toast(data.message, {
-      hideProgressBar: false,
-      autoClose: 2000,
-      type: "success",
-      position: "top-center",
-    });
-
-    mutate("api/todo");
-  };
-
-  const handleEdit = async (todo) => {
-    try {
-      const { data } = await axios.patch(`api/todo/${todo._id}`, {
-        ...todo,
-        completed: true,
-      });
-      toast(data.message, {
-        hideProgressBar: false,
-        autoClose: 2000,
-        type: "success",
-        position: "top-center",
-      });
-      mutate("api/todo");
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
+const TodoCard = ({ todo, mutate, handleDelete, handleEdit }) => {
   return (
     <div className='flex flex-row items-center justify-between w-full p-6 mt-6 bg-white border rounded-xl cursor-pointer hover:shadow-lg custom-transition border-slate-200'>
       <div>
-        <h4 className={` ${todo.completed && "line-through text-slate-500 "} `}>
-          {todo.title}
-        </h4>
+        <Link href={`todos/${todo._id}`}>
+          <h4
+            className={` ${todo.completed && "line-through text-slate-500 "} `}
+          >
+            {todo.title}
+          </h4>
+        </Link>
       </div>
       <div className='flex flex-row justify-end items-center gap-2 w-[150px]  '>
         <div
-          onClick={() => handleEdit(todo)}
+          onClick={() => handleEdit(todo, mutate)}
           className='p-2 rounded-md cursor-pointer hover:bg-slate-50 custom-transition hover:shadow-md'
         >
           <CheckedIcon
@@ -57,14 +29,16 @@ const TodoCard = ({ todo, mutate }) => {
           />
         </div>
         <div
-          onClick={() => handleDelete(todo._id)}
+          onClick={() => handleDelete(todo._id, mutate)}
           className='p-2 rounded-md cursor-pointer hover:bg-slate-50 custom-transition hover:shadow-md'
         >
           <Trash className='w-6 h-6 text-rose-700 ' />
         </div>
-        <div className='p-2 rounded-md cursor-pointer hover:bg-slate-50 custom-transition hover:shadow-md'>
-          <Edit className='w-6 h-6 text-indigo-500 ' />
-        </div>
+        <Link href={`edit-todo/${todo._id}`}>
+          <div className='p-2 rounded-md cursor-pointer hover:bg-slate-50 custom-transition hover:shadow-md'>
+            <Edit className='w-6 h-6 text-indigo-500 ' />
+          </div>
+        </Link>
       </div>
     </div>
   );

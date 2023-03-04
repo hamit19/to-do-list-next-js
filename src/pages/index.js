@@ -1,31 +1,26 @@
 import Head from "next/head";
-import Image from "next/image";
 import { Inter } from "@next/font/google";
-import TodoCard from "@/components/todo-card";
-// import { Data } from "../../data/todos";
-import useSwr, { useSWRConfig } from "swr";
-import axios from "axios";
 import FormComponent from "@/components/form";
-
-const inter = Inter({ subsets: ["latin"] });
-
-const fetcher = async () => {
-  const { data } = await axios.get("api/todo");
-  return data;
-};
+import Todos from "./todos/todos";
+import { useSWRConfig } from "swr";
+import axios from "axios";
+import { useState } from "react";
 
 export default function Home() {
   const { mutate } = useSWRConfig();
-  const { data, error } = useSwr("api/todo", fetcher);
+  const [isShow, setIsShow] = useState(false);
 
-  if (error) return <h3>Some error occurred! Please refresh the page</h3>;
+  const handleSubmit = async (e, setValue, value) => {
+    e.preventDefault();
 
-  if (!data) return <h3>Loading...</h3>;
+    try {
+      await axios.post("/todo", value);
+      mutate("api/todo");
+    } catch (error) {
+      console.log(error);
+    }
 
-  const renderTodoList = () => {
-    return data?.map((todo) => (
-      <TodoCard mutate={mutate} todo={todo} key={todo._id} />
-    ));
+    setValue({ ...value, title: "", description: "" });
   };
 
   return (
@@ -38,19 +33,24 @@ export default function Home() {
       </Head>
       <main className=''>
         <div className='container w-11/12 p-8 mx-auto mt-10 lg:w-[800px] bg-white rounded-xl'>
-          <FormComponent mutate={mutate} />
+          {!isShow ? (
+            <button
+              onClick={() => setIsShow(true)}
+              className='w-full p-2 bg-blue-500 rounded-md hover:bg-blue-600 custom-transition text-slate-50'
+            >
+              Add New Todo?!
+            </button>
+          ) : (
+            <FormComponent
+              mutate={mutate}
+              handleSubmit={handleSubmit}
+              cancel={() => setIsShow(false)}
+            />
+          )}
         </div>
 
         <div className='container w-11/12 p-8 mx-auto mt-10 lg:w-[800px] bg-white rounded-xl '>
-          {data.length <= 0 ? (
-            <p>
-              {" "}
-              There is no todo list available yet, you can make a new one by
-              clicking on the above button!{" "}
-            </p>
-          ) : (
-            renderTodoList()
-          )}
+          <Todos />
         </div>
       </main>
     </>

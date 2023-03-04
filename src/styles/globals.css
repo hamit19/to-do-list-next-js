@@ -2,8 +2,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,100;1,200;1,500;1,600&display=swap");
+
 @layer utilities {
   .custom-transition {
     @apply transition-all duration-300 ease-in-out;
+  }
+}
+
+@layer base {
+  html,
+  body,
+  input,
+  textarea,
+  select {
+    font-family: "Noto Sans", sans-serif;
   }
 }

@@ -1,5 +1,4 @@
 import Head from "next/head";
-import { Inter } from "@next/font/google";
 import FormComponent from "@/components/form";
 import Todos from "./todos/todos";
 import { useSWRConfig } from "swr";
